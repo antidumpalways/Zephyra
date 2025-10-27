@@ -111,10 +111,6 @@ jobs:
           sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
           echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
           
-      - name: Install Anchor
-        run: |
-          cargo install --git https://github.com/coral-xyz/anchor --tag v${{ env.ANCHOR_VERSION }} anchor-cli --locked --force
-          
       - name: Setup Solana wallet
         run: |
           mkdir -p ~/.config/solana
@@ -125,20 +121,32 @@ jobs:
         run: |
           solana balance
           
-      - name: Deploy programs
+      - name: Deploy programs to Devnet
         run: |
-          anchor deploy --provider.cluster devnet
+          echo "Deploying Zephyra Protection Manager..."
+          solana program deploy --program-id target/deploy/zephyra_protection_manager-keypair.json target/deploy/zephyra_protection_manager.so
           
-      - name: Get program IDs
+          echo "Deploying Zephyra Route Executor..."
+          solana program deploy --program-id target/deploy/zephyra_route_executor-keypair.json target/deploy/zephyra_route_executor.so
+          
+          echo "Deploying Zephyra Proof Verifier..."
+          solana program deploy --program-id target/deploy/zephyra_proof_verifier-keypair.json target/deploy/zephyra_proof_verifier.so
+          
+          echo "Deploying Zephyra Batch Coordinator..."
+          solana program deploy --program-id target/deploy/zephyra_batch_coordinator-keypair.json target/deploy/zephyra_batch_coordinator.so
+          
+      - name: Display deployed program IDs
         run: |
-          echo "## Deployed Program IDs" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 Successfully Deployed to Devnet!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Program | Address |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|---------|" >> $GITHUB_STEP_SUMMARY
-          solana-keygen pubkey target/deploy/zephyra_protection_manager-keypair.json | xargs -I {} echo "| Protection Manager | {} |" >> $GITHUB_STEP_SUMMARY
-          solana-keygen pubkey target/deploy/zephyra_route_executor-keypair.json | xargs -I {} echo "| Route Executor | {} |" >> $GITHUB_STEP_SUMMARY
-          solana-keygen pubkey target/deploy/zephyra_proof_verifier-keypair.json | xargs -I {} echo "| Proof Verifier | {} |" >> $GITHUB_STEP_SUMMARY
-          solana-keygen pubkey target/deploy/zephyra_batch_coordinator-keypair.json | xargs -I {} echo "| Batch Coordinator | {} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Protection Manager | $(solana-keygen pubkey target/deploy/zephyra_protection_manager-keypair.json) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Route Executor | $(solana-keygen pubkey target/deploy/zephyra_route_executor-keypair.json) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Proof Verifier | $(solana-keygen pubkey target/deploy/zephyra_proof_verifier-keypair.json) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Batch Coordinator | $(solana-keygen pubkey target/deploy/zephyra_batch_coordinator-keypair.json) |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Cluster:** Devnet (https://api.devnet.solana.com)" >> $GITHUB_STEP_SUMMARY
           
   test:
     name: Run Tests
