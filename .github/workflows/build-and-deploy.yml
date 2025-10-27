@@ -64,9 +64,16 @@ jobs:
           cd ../zephyra-proof-verifier && cargo build-sbf
           cd ../zephyra-batch-coordinator && cargo build-sbf
           
-      - name: List build artifacts
+      - name: List build artifacts (check all possible locations)
         run: |
-          ls -lh target/deploy/
+          echo "=== Checking target/deploy/ ==="
+          ls -lh target/deploy/ || echo "target/deploy/ not found"
+          echo ""
+          echo "=== Checking for .so files recursively ==="
+          find . -name "*.so" -type f 2>/dev/null || echo "No .so files found"
+          echo ""
+          echo "=== Checking for keypair files ==="
+          find . -name "*-keypair.json" -type f 2>/dev/null || echo "No keypair files found"
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
