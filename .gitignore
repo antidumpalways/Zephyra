@@ -1,0 +1,57 @@
+# Anchor
+.anchor
+target/
+test-ledger/
+
+# Rust
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Node
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.production
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Solana
+.solana/
+wallet.json
+
+# Build artifacts
+*.so
+!target/deploy/*.so
+*.dylib
+*.dll
+
+# Private keys (IMPORTANT!)
+*-keypair.json
+id.json
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Misc
+coverage/
+.nyc_output/
+.turbo

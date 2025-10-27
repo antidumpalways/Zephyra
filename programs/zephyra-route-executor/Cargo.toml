@@ -1,0 +1,22 @@
+[package]
+name = "zephyra-route-executor"
+version = "1.0.0"
+description = "Zephyra Route Executor Program - Execute swaps across multiple DEXs"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "zephyra_route_executor"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.32.1"
+anchor-spl = "0.32.1"
+
+

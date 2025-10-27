@@ -1,0 +1,64 @@
+“SentinelX – Platform eksekusi & proteksi DeFi real-time terpadu dengan simulasi AI, MEV-shielding, auto-hedging, on-chain insurance, dan cross-chain swap dalam <100 ms.”
+
+Kenapa SentinelX Lebih Unggul daripada Guardian?
+Komprehensif, bukan sekadar routing
+Guardian fokus pada rute swap aman; SentinelX mencakup proteksi menyeluruh: swap, portfolio monitoring, hedging, insurance, dan cross-chain.
+AI-Driven Risk Management
+Selain mendeteksi sandwich/MEV, SentinelX melakukan anomaly detection (rugpull, phishing), automated stop-loss, dan dynamic hedging via perps.
+On-chain Insurance & Auto-Hedging
+Pengguna bisa langsung beli cover dari penyedia asuransi on-chain (misal Nexus Mutual), atau auto-hedge exposure menggunakan perp markets.
+Cross-Chain Support
+Multi-chain swap aman (Solana, Ethereum, BSC) dengan proteksi end-to-end, bukan hanya di Solana.
+Social & Governance Alerts
+Real-time feed komunitas, voting alerts DAO, dan sentiment score proposal, membuat proteksi portofolio juga memantau keputusan on-chain.
+Fitur Utama SentinelX
+Universal DeFi Dashboard
+Real-time portfolio across chains (SOL, ETH, BNB, tokens)
+P&L, risk metrics, exposure charts
+Smart Execution Engine
+Batch routing terbaik (Jupiter, Raydium, Orca, Uniswap)
+Private ER simulation → pilih rute optimal + proteksi MEV (< 100 ms)
+Public ER execution → eksekusi digabungkan (batching)
+AI-Powered Risk Shield
+Machine-learning anomaly detection (on/off-chain signals)
+Predictive alerts: potensi rugpull, phishing contracts
+Dynamic stop-loss & auto-take profit
+Auto-Hedging & LP Rebalancer
+Otomatis pasang posisi hedging di futures/perps saat exposure melebihi threshold
+Rebalance liquidity pools berdasarkan volatility & impermanent loss prediction
+On-Chain Insurance Integration
+Pilih coverage policy (smart contract bug, hack, depeg)
+Premium on-the-fly via private ER, auto-claim trigger
+Cross-Chain Safe Swap
+Bridge + swap dalam satu flow aman
+End-to-end MEV protection & slippage guard
+Governance & Social Feed
+Notifikasi proposal DAO & sentiment score
+Chatroom & tipping on-chain (SOL/USDC)
+Leaderboard top protektor portofolio
+Arsitektur Teknis
+┌──────────────────────────────────────────────┐
+│ Layer 1: Frontend SDK / Extension │
+│ • Intercept txn dari wallet (Phantom, Metamask)│
+│ • UI proteksi, dashboard, alerts │
+└────────────────┬─────────────────────────────┘
+│
+▼
+┌──────────────────────────────────────────────┐
+│ Layer 2: Sentinel Sequencer (Private ER) │
+│ • Simulasi multi-route & MEV risk analysis │
+│ • ML inference service (anomaly, sentiment) │
+│ • Insurance quote & hedging recommendation │
+└────────────────┬─────────────────────────────┘
+│
+▼
+┌──────────────────────────────────────────────┐
+│ Layer 3: Execution Router (Public ER) │
+│ • Batch execution optimal route │
+│ • Cross-chain bridging & settlement │
+└──────────────────────────────────────────────┘
+Additional Components:
+
+Data Orchestrator (off-chain ETL + real-time feeds via Pyth, Chainlink)
+ML Training Pipeline (PyTorch on AWS/GCP)
+Insurance & Hedging Engine (smart contracts & on-chain APIs)

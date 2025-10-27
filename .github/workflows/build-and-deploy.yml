@@ -1,0 +1,155 @@
+name: Build and Deploy Zephyra Contracts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  SOLANA_VERSION: '1.18.26'
+  ANCHOR_VERSION: '0.32.1'
+  RUST_VERSION: '1.82.0'
+
+jobs:
+  build:
+    name: Build Anchor Programs
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+          
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+            
+      - name: Install Solana
+        run: |
+          sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+          
+      - name: Install Anchor
+        run: |
+          cargo install --git https://github.com/coral-xyz/anchor --tag v${{ env.ANCHOR_VERSION }} anchor-cli --locked --force
+          
+      - name: Verify installations
+        run: |
+          rustc --version
+          solana --version
+          anchor --version
+          
+      - name: Build programs
+        run: |
+          anchor build
+          
+      - name: List build artifacts
+        run: |
+          ls -lh target/deploy/
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: zephyra-programs
+          path: |
+            target/deploy/*.so
+            target/deploy/*-keypair.json
+            target/idl/*.json
+          retention-days: 30
+          
+  deploy-devnet:
+    name: Deploy to Devnet
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: zephyra-programs
+          path: target/deploy/
+          
+      - name: Install Solana
+        run: |
+          sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+          
+      - name: Install Anchor
+        run: |
+          cargo install --git https://github.com/coral-xyz/anchor --tag v${{ env.ANCHOR_VERSION }} anchor-cli --locked --force
+          
+      - name: Setup Solana wallet
+        run: |
+          mkdir -p ~/.config/solana
+          echo "${{ secrets.SOLANA_DEPLOYER_PRIVATE_KEY }}" > ~/.config/solana/id.json
+          solana config set --url https://api.devnet.solana.com
+          
+      - name: Check balance
+        run: |
+          solana balance
+          
+      - name: Deploy programs
+        run: |
+          anchor deploy --provider.cluster devnet
+          
+      - name: Get program IDs
+        run: |
+          echo "## Deployed Program IDs" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Program | Address |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|---------|" >> $GITHUB_STEP_SUMMARY
+          solana-keygen pubkey target/deploy/zephyra_protection_manager-keypair.json | xargs -I {} echo "| Protection Manager | {} |" >> $GITHUB_STEP_SUMMARY
+          solana-keygen pubkey target/deploy/zephyra_route_executor-keypair.json | xargs -I {} echo "| Route Executor | {} |" >> $GITHUB_STEP_SUMMARY
+          solana-keygen pubkey target/deploy/zephyra_proof_verifier-keypair.json | xargs -I {} echo "| Proof Verifier | {} |" >> $GITHUB_STEP_SUMMARY
+          solana-keygen pubkey target/deploy/zephyra_batch_coordinator-keypair.json | xargs -I {} echo "| Batch Coordinator | {} |" >> $GITHUB_STEP_SUMMARY
+          
+  test:
+    name: Run Tests
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: zephyra-programs
+          path: target/deploy/
+          
+      - name: Run tests
+        run: |
+          anchor test --skip-local-validator
+
+

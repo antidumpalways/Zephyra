@@ -1,0 +1,25 @@
+[package]
+name = "zephyra-batch-coordinator"
+version = "1.0.0"
+description = "Zephyra Batch Coordinator Program - Coordinate multiple transactions"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "zephyra_batch_coordinator"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.32.1"
+anchor-spl = "0.32.1"
+solana-program = "~1.18.2"
+
+
+
+

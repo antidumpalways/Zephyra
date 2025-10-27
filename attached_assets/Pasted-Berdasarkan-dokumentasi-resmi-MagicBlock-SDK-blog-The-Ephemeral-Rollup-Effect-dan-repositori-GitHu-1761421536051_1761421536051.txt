@@ -1,0 +1,59 @@
+Berdasarkan dokumentasi resmi MagicBlock SDK, blog The Ephemeral Rollup Effect, dan repositori GitHub ephemeral‑rollups‑sdk , Zephyra membutuhkan empat lapis kontrak utama agar integrasi dengan Ephemeral Rollups berjalan optimal di Solana.​
+
+1. Protection Manager Program
+Tujuan: pusat kontrol untuk semua transaksi yang ingin dilindungi.
+Alasan teknis:
+
+MagicBlock memakai state delegation untuk mengunci akun ke runtime rollup .​
+
+Kontrak ini menandai akun pengguna sebelum delegation call ke Ephemeral Validator.
+Isi utama:
+
+Fungsi initialize_protection() dan submit_transaction().
+
+Struktur akun ProtectionAccount untuk menyimpan pengaturan pengguna.
+
+Event TransactionSubmitted dan MEVDetected.
+
+2. Route Executor Program
+Tujuan: menjalankan transaksi lintas DEX (Jupiter, Raydium, Orca).
+Alasan teknis:
+MagicBlock mendukung delegated compute alias “temporary SVM sub‑runtime” yang menangani transaksi paralel .​
+Isi utama:
+
+Eksekusi protected swap per DEX melalui CPI call.
+
+Fungsi select_best_route() untuk membandingkan hasil simulasi.
+
+Event RouteExecuted dan RouteSelected.
+
+3. Proof Verifier Program
+Tujuan: menghasilkan dan memvalidasi proof‑of‑route.
+Alasan teknis:
+MagicBlock menyediakan fraud‑proof system before commit (seperti dijelaskan di Twitter post resmi) .​
+Isi utama:
+
+Fungsi generate_proof() dan verify_proof().
+
+Struktur ProofOfRoute berisi hash proof, log deteksi MEV, dan waktu eksekusi.
+
+Event ProofGenerated dan ProofVerified.
+
+4. Batch Coordinator Program
+Tujuan: mengelola batch transaksi untuk efisiensi gas dan anti MEV antar TX.
+Alasan teknis:
+MagicBlock memungkinkan parallel read access & multi‑TX commit via rollups .​
+Isi utama:
+
+Fungsi create_batch() dan execute_batch() untuk sinkronisasi commit.
+
+Struktur Batch dengan batch_hash dan BatchExecutionResult.
+
+Integrasi Langsung dengan MagicBlock Rollup
+Selain keempat program di atas, backend kamu perlu berinteraksi dengan SDK:
+
+rust
+delegate_account(primary_account)?;
+execute_in_rollup(session_id, instructions)?;
+commit_and_undelegate_accounts(session_id)?;
+Langkah ini memastikan state transaksi Zephyra hanya aktif sementara di rollup lalu di‑commit kembali ke Solana L1 .​
