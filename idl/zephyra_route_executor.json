@@ -1,0 +1,842 @@
+{
+  "address": "ED8b3n8TAyFGohFofCFiUFFT2X3xpsUpSEajWmCZbJ8n",
+  "metadata": {
+    "name": "route_executor",
+    "version": "1.0.0",
+    "spec": "0.1.0",
+    "description": "Zephyra Route Executor Program - Execute swaps across multiple DEXs"
+  },
+  "docs": [
+    "Zephyra Route Executor Program",
+    "Execute swaps across multiple DEXs with MEV protection"
+  ],
+  "instructions": [
+    {
+      "name": "execute_jupiter_swap",
+      "docs": [
+        "Execute protected swap on Jupiter"
+      ],
+      "discriminator": [
+        0,
+        153,
+        94,
+        101,
+        168,
+        72,
+        220,
+        247
+      ],
+      "accounts": [
+        {
+          "name": "transaction_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  97,
+                  110,
+                  115,
+                  97,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "transaction_account.owner",
+                "account": "Transaction"
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "route_execution",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  117,
+                  116,
+                  101,
+                  95,
+                  101,
+                  120,
+                  101,
+                  99,
+                  117,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  106,
+                  117,
+                  112,
+                  105,
+                  116,
+                  101,
+                  114
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "route_data",
+          "type": "bytes"
+        },
+        {
+          "name": "min_output",
+          "type": "u64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "execute_orca_swap",
+      "docs": [
+        "Execute protected swap on Orca"
+      ],
+      "discriminator": [
+        13,
+        121,
+        180,
+        113,
+        158,
+        163,
+        4,
+        150
+      ],
+      "accounts": [
+        {
+          "name": "transaction_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  97,
+                  110,
+                  115,
+                  97,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "transaction_account.owner",
+                "account": "Transaction"
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "route_execution",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  117,
+                  116,
+                  101,
+                  95,
+                  101,
+                  120,
+                  101,
+                  99,
+                  117,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  99,
+                  97
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "pool_address",
+          "type": "pubkey"
+        },
+        {
+          "name": "min_output",
+          "type": "u64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "execute_raydium_swap",
+      "docs": [
+        "Execute protected swap on Raydium"
+      ],
+      "discriminator": [
+        231,
+        250,
+        241,
+        103,
+        28,
+        122,
+        78,
+        16
+      ],
+      "accounts": [
+        {
+          "name": "transaction_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  97,
+                  110,
+                  115,
+                  97,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "transaction_account.owner",
+                "account": "Transaction"
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "route_execution",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  117,
+                  116,
+                  101,
+                  95,
+                  101,
+                  120,
+                  101,
+                  99,
+                  117,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  121,
+                  100,
+                  105,
+                  117,
+                  109
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "pool_address",
+          "type": "pubkey"
+        },
+        {
+          "name": "min_output",
+          "type": "u64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "select_best_route",
+      "docs": [
+        "Compare routes and select best"
+      ],
+      "discriminator": [
+        249,
+        48,
+        70,
+        43,
+        154,
+        31,
+        207,
+        239
+      ],
+      "accounts": [
+        {
+          "name": "transaction_account"
+        }
+      ],
+      "args": [
+        {
+          "name": "routes",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "RouteOption"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "RouteSelection"
+        }
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RouteExecution",
+      "discriminator": [
+        142,
+        139,
+        124,
+        220,
+        62,
+        158,
+        172,
+        254
+      ]
+    },
+    {
+      "name": "Transaction",
+      "discriminator": [
+        11,
+        24,
+        174,
+        129,
+        203,
+        117,
+        242,
+        23
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "RouteExecuted",
+      "discriminator": [
+        223,
+        139,
+        136,
+        123,
+        11,
+        101,
+        183,
+        17
+      ]
+    },
+    {
+      "name": "RouteSelected",
+      "discriminator": [
+        134,
+        103,
+        154,
+        214,
+        154,
+        66,
+        87,
+        163
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "SlippageExceeded",
+      "msg": "Slippage exceeded maximum allowed"
+    },
+    {
+      "code": 6001,
+      "name": "NoRoutesProvided",
+      "msg": "No routes provided"
+    },
+    {
+      "code": 6002,
+      "name": "TooManyRoutes",
+      "msg": "Too many routes provided"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidRouteData",
+      "msg": "Invalid route data"
+    },
+    {
+      "code": 6004,
+      "name": "ExecutionFailed",
+      "msg": "Execution failed"
+    }
+  ],
+  "types": [
+    {
+      "name": "DEX",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Jupiter"
+          },
+          {
+            "name": "Raydium"
+          },
+          {
+            "name": "Orca"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ExecutionProof",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pre_balance",
+            "type": "u64"
+          },
+          {
+            "name": "post_balance",
+            "type": "u64"
+          },
+          {
+            "name": "signature",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouteExecuted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dex",
+            "type": {
+              "defined": {
+                "name": "DEX"
+              }
+            }
+          },
+          {
+            "name": "input_amount",
+            "type": "u64"
+          },
+          {
+            "name": "output_amount",
+            "type": "u64"
+          },
+          {
+            "name": "execution_time_ms",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouteExecution",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dex",
+            "type": {
+              "defined": {
+                "name": "DEX"
+              }
+            }
+          },
+          {
+            "name": "input_amount",
+            "type": "u64"
+          },
+          {
+            "name": "output_amount",
+            "type": "u64"
+          },
+          {
+            "name": "price_impact_bps",
+            "type": "u16"
+          },
+          {
+            "name": "mev_risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "executed_at",
+            "type": "i64"
+          },
+          {
+            "name": "proof",
+            "type": {
+              "defined": {
+                "name": "ExecutionProof"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouteOption",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dex",
+            "type": {
+              "defined": {
+                "name": "DEX"
+              }
+            }
+          },
+          {
+            "name": "estimated_output",
+            "type": "u64"
+          },
+          {
+            "name": "price_impact_bps",
+            "type": "u16"
+          },
+          {
+            "name": "mev_risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "liquidity_depth",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouteSelected",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "selected_dex",
+            "type": {
+              "defined": {
+                "name": "DEX"
+              }
+            }
+          },
+          {
+            "name": "alternatives_count",
+            "type": "u8"
+          },
+          {
+            "name": "reasoning",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouteSelection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "selected_dex",
+            "type": {
+              "defined": {
+                "name": "DEX"
+              }
+            }
+          },
+          {
+            "name": "estimated_output",
+            "type": "u64"
+          },
+          {
+            "name": "reasoning",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Transaction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "output_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_amount",
+            "type": "u64"
+          },
+          {
+            "name": "output_amount",
+            "type": "u64"
+          },
+          {
+            "name": "risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "selected_route",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "TransactionStatus"
+              }
+            }
+          },
+          {
+            "name": "proof_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "batch_id",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "completed_at",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Simulating"
+          },
+          {
+            "name": "Analyzing"
+          },
+          {
+            "name": "Executing"
+          },
+          {
+            "name": "Completed"
+          },
+          {
+            "name": "Failed"
+          }
+        ]
+      }
+    }
+  ]
+}

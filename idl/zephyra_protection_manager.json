@@ -1,0 +1,945 @@
+{
+  "address": "835NApE56thzrECSzQnBiEGgwDpgHbeMxw9xPWHZcsEj",
+  "metadata": {
+    "name": "zephyra_protection_manager",
+    "version": "1.0.0",
+    "spec": "0.1.0",
+    "description": "Zephyra Protection Manager Program - Central coordinator for MEV protection"
+  },
+  "docs": [
+    "Zephyra Protection Manager Program",
+    "Central coordinator for MEV protection and transaction management"
+  ],
+  "instructions": [
+    {
+      "name": "complete_transaction",
+      "docs": [
+        "Complete transaction execution"
+      ],
+      "discriminator": [
+        34,
+        152,
+        198,
+        211,
+        120,
+        165,
+        66,
+        161
+      ],
+      "accounts": [
+        {
+          "name": "protection_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "transaction_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  97,
+                  110,
+                  115,
+                  97,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "output_amount",
+          "type": "u64"
+        },
+        {
+          "name": "proof_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "get_transaction_status",
+      "docs": [
+        "Get transaction status"
+      ],
+      "discriminator": [
+        13,
+        80,
+        39,
+        180,
+        172,
+        126,
+        144,
+        171
+      ],
+      "accounts": [
+        {
+          "name": "protection_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "transaction_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  97,
+                  110,
+                  115,
+                  97,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "TransactionStatus"
+        }
+      }
+    },
+    {
+      "name": "initialize_protection",
+      "docs": [
+        "Initialize protection account for user"
+      ],
+      "discriminator": [
+        55,
+        42,
+        9,
+        214,
+        118,
+        193,
+        158,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "protection_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "wallet_address"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "wallet_address",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "submit_transaction",
+      "docs": [
+        "Submit transaction for protection"
+      ],
+      "discriminator": [
+        190,
+        55,
+        234,
+        225,
+        113,
+        191,
+        28,
+        62
+      ],
+      "accounts": [
+        {
+          "name": "protection_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "transaction_account",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "input_token",
+          "type": "pubkey"
+        },
+        {
+          "name": "output_token",
+          "type": "pubkey"
+        },
+        {
+          "name": "input_amount",
+          "type": "u64"
+        },
+        {
+          "name": "_min_output_amount",
+          "type": "u64"
+        }
+      ],
+      "returns": {
+        "array": [
+          "u8",
+          32
+        ]
+      }
+    },
+    {
+      "name": "update_risk_analysis",
+      "docs": [
+        "Update transaction with AI risk analysis results"
+      ],
+      "discriminator": [
+        168,
+        68,
+        140,
+        173,
+        163,
+        45,
+        124,
+        62
+      ],
+      "accounts": [
+        {
+          "name": "protection_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "transaction_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  97,
+                  110,
+                  115,
+                  97,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              },
+              {
+                "kind": "arg",
+                "path": "transaction_id"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "risk_score",
+          "type": "u8"
+        },
+        {
+          "name": "mev_detected",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "update_settings",
+      "docs": [
+        "Update protection settings"
+      ],
+      "discriminator": [
+        81,
+        166,
+        51,
+        213,
+        158,
+        84,
+        157,
+        108
+      ],
+      "accounts": [
+        {
+          "name": "protection_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protection_account.owner",
+                "account": "ProtectionAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "max_slippage",
+          "type": "u16"
+        },
+        {
+          "name": "max_mev_risk",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ProtectionAccount",
+      "discriminator": [
+        24,
+        154,
+        220,
+        33,
+        106,
+        39,
+        250,
+        133
+      ]
+    },
+    {
+      "name": "Transaction",
+      "discriminator": [
+        11,
+        24,
+        174,
+        129,
+        203,
+        117,
+        242,
+        23
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "MEVDetected",
+      "discriminator": [
+        80,
+        27,
+        220,
+        101,
+        165,
+        32,
+        142,
+        114
+      ]
+    },
+    {
+      "name": "ProtectionInitialized",
+      "discriminator": [
+        171,
+        55,
+        204,
+        119,
+        247,
+        28,
+        138,
+        79
+      ]
+    },
+    {
+      "name": "SettingsUpdated",
+      "discriminator": [
+        35,
+        115,
+        95,
+        212,
+        3,
+        206,
+        67,
+        222
+      ]
+    },
+    {
+      "name": "TransactionCompleted",
+      "discriminator": [
+        198,
+        146,
+        206,
+        161,
+        61,
+        172,
+        18,
+        121
+      ]
+    },
+    {
+      "name": "TransactionSubmitted",
+      "discriminator": [
+        210,
+        196,
+        133,
+        124,
+        97,
+        73,
+        97,
+        242
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidTransactionId",
+      "msg": "Invalid transaction ID"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidSlippage",
+      "msg": "Invalid slippage percentage"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidRiskScore",
+      "msg": "Invalid risk score"
+    },
+    {
+      "code": 6003,
+      "name": "TransactionNotFound",
+      "msg": "Transaction not found"
+    },
+    {
+      "code": 6004,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access"
+    }
+  ],
+  "types": [
+    {
+      "name": "MEVDetected",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "attack_type",
+            "type": "string"
+          },
+          {
+            "name": "risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtectionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_transactions",
+            "type": "u64"
+          },
+          {
+            "name": "total_savings",
+            "type": "u64"
+          },
+          {
+            "name": "mev_attacks_blocked",
+            "type": "u32"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "defined": {
+                "name": "ProtectionSettings"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtectionInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtectionSettings",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "max_slippage_bps",
+            "type": "u16"
+          },
+          {
+            "name": "max_mev_risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "auto_execute",
+            "type": "bool"
+          },
+          {
+            "name": "batch_enabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettingsUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "max_slippage_bps",
+            "type": "u16"
+          },
+          {
+            "name": "max_mev_risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Transaction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "output_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_amount",
+            "type": "u64"
+          },
+          {
+            "name": "output_amount",
+            "type": "u64"
+          },
+          {
+            "name": "risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "selected_route",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "TransactionStatus"
+              }
+            }
+          },
+          {
+            "name": "proof_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "batch_id",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "completed_at",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionCompleted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "output_amount",
+            "type": "u64"
+          },
+          {
+            "name": "savings",
+            "type": "u64"
+          },
+          {
+            "name": "risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Simulating"
+          },
+          {
+            "name": "Analyzing"
+          },
+          {
+            "name": "Executing"
+          },
+          {
+            "name": "Completed"
+          },
+          {
+            "name": "Failed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionSubmitted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "output_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
