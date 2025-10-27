@@ -9,10 +9,10 @@ zephyra_proof_verifier = "Cw8CFyM9FkoMi7KTYpkqXZ4e4v5X3sJ7W8dL2mN9pQrT"
 zephyra_batch_coordinator = "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
 
 [programs.devnet]
-zephyra_protection_manager = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
-zephyra_route_executor = "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM"
-zephyra_proof_verifier = "Cw8CFyM9FkoMi7KTYpkqXZ4e4v5X3sJ7W8dL2mN9pQrT"
-zephyra_batch_coordinator = "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+zephyra_protection_manager = "835NApE56thzrECSzQnBiEGgwDpgHbeMxw9xPWHZcsEj"
+zephyra_route_executor = "ED8b3n8TAyFGohFofCFiUFFT2X3xpsUpSEajWmCZbJ8n"
+zephyra_proof_verifier = "CYeCspx1DjYxYQZgMWz1sRPzKg9UxVWhMx5rRM4HihzQ"
+zephyra_batch_coordinator = "Cxajg3f3QNHXLqD1w5yYCMN4V7BsQKXE2LAnEPH73F8S"
 
 [programs.mainnet]
 zephyra_protection_manager = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"

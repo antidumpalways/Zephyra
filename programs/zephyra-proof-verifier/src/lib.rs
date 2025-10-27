@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("Cw8CFyM9FkoMi7KTYpkqXZ4e4v5X3sJ7W8dL2mN9pQrT");
+declare_id!("CYeCspx1DjYxYQZgMWz1sRPzKg9UxVWhMx5rRM4HihzQ");
 
 /// Zephyra Proof Verifier Program
 /// Generate and verify cryptographic proofs of route selection

@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU");
+declare_id!("Cxajg3f3QNHXLqD1w5yYCMN4V7BsQKXE2LAnEPH73F8S");
 
 /// Zephyra Batch Coordinator Program
 /// Coordinate multiple transactions for efficient execution

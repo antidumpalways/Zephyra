@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("835NApE56thzrECSzQnBiEGgwDpgHbeMxw9xPWHZcsEj");
 
 /// Zephyra Protection Manager Program
 /// Central coordinator for MEV protection and transaction management
