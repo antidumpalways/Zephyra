@@ -61,6 +61,11 @@ jobs:
           solana --version
           anchor --version
           
+      - name: Set Rust override
+        run: |
+          rustup default ${{ env.RUST_VERSION }}
+          rustc --version
+          
       - name: Build programs
         run: |
           anchor build
