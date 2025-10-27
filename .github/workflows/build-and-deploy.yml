@@ -46,19 +46,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pkg-config libudev-dev
           
-      - name: Install Solana
-        run: |
-          # Retry install with timeout
-          for i in {1..3}; do
-            if sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"; then
-              break
-            fi
-            echo "Solana install attempt $i failed, retrying..."
-            sleep 5
-          done
-          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-          solana --version
+      - name: Install Solana CLI
+        uses: metaplex-foundation/actions/install-solana@v1
+        with:
+          version: ${{ env.SOLANA_VERSION }}
           
       - name: Install Anchor
         run: |
@@ -66,14 +57,12 @@ jobs:
           
       - name: Verify installations
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           rustc --version
           solana --version
           anchor --version
           
       - name: Build programs
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           anchor build
           
       - name: List build artifacts
@@ -111,19 +100,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pkg-config libudev-dev
           
-      - name: Install Solana
-        run: |
-          # Retry install with timeout
-          for i in {1..3}; do
-            if sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"; then
-              break
-            fi
-            echo "Solana install attempt $i failed, retrying..."
-            sleep 5
-          done
-          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-          solana --version
+      - name: Install Solana CLI
+        uses: metaplex-foundation/actions/install-solana@v1
+        with:
+          version: ${{ env.SOLANA_VERSION }}
           
       - name: Install Anchor
         run: |
@@ -131,24 +111,20 @@ jobs:
           
       - name: Setup Solana wallet
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           mkdir -p ~/.config/solana
           echo "${{ secrets.SOLANA_DEPLOYER_PRIVATE_KEY }}" > ~/.config/solana/id.json
           solana config set --url https://api.devnet.solana.com
           
       - name: Check balance
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           solana balance
           
       - name: Deploy programs
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           anchor deploy --provider.cluster devnet
           
       - name: Get program IDs
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           echo "## Deployed Program IDs" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Program | Address |" >> $GITHUB_STEP_SUMMARY
@@ -184,7 +160,6 @@ jobs:
           
       - name: Run tests
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           anchor test --skip-local-validator
 
 
