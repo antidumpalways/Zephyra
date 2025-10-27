@@ -9,12 +9,12 @@ pub mod batch_coordinator {
     use super::*;
 
     /// Create new batch
-    pub fn create_batch(ctx: Context<CreateBatch>) -> Result<[u8; 32]> {
+    pub fn create_batch(ctx: Context<CreateBatch>, timestamp: i64) -> Result<[u8; 32]> {
         let batch_account = &mut ctx.accounts.batch_account;
         let clock = Clock::get()?;
 
-        // Generate unique batch ID
-        let batch_id = generate_batch_id(&ctx.accounts.authority.key(), clock.unix_timestamp);
+        // Generate unique batch ID using provided timestamp
+        let batch_id = generate_batch_id(&ctx.accounts.authority.key(), timestamp);
 
         // Initialize batch account
         batch_account.id = batch_id;
@@ -299,12 +299,13 @@ const MAX_BATCH_SIZE: u32 = 10;
 const MIN_BATCH_AGE_SECONDS: i64 = 30; // 30 seconds minimum age
 
 #[derive(Accounts)]
+#[instruction(timestamp: i64)]
 pub struct CreateBatch<'info> {
     #[account(
         init,
         payer = payer,
         space = 8 + Batch::INIT_SPACE,
-        seeds = [b"batch", authority.key().as_ref(), &Clock::get().unwrap().unix_timestamp.to_le_bytes()],
+        seeds = [b"batch", authority.key().as_ref(), &timestamp.to_le_bytes()],
         bump
     )]
     pub batch_account: Account<'info, Batch>,
