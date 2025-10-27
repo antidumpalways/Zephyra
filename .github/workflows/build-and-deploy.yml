@@ -61,10 +61,10 @@ jobs:
         env:
           RUSTUP_TOOLCHAIN: ${{ env.RUST_VERSION }}
         run: |
-          cd programs/zephyra-protection-manager && cargo build-bpf -- --release
-          cd ../zephyra-route-executor && cargo build-bpf -- --release
-          cd ../zephyra-proof-verifier && cargo build-bpf -- --release
-          cd ../zephyra-batch-coordinator && cargo build-bpf -- --release
+          cd programs/zephyra-protection-manager && cargo build-bpf
+          cd ../zephyra-route-executor && cargo build-bpf
+          cd ../zephyra-proof-verifier && cargo build-bpf
+          cd ../zephyra-batch-coordinator && cargo build-bpf
           
       - name: List build artifacts
         run: |
