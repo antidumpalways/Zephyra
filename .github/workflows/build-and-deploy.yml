@@ -48,7 +48,14 @@ jobs:
           
       - name: Install Solana
         run: |
-          sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+          # Retry install with timeout
+          for i in {1..3}; do
+            if sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"; then
+              break
+            fi
+            echo "Solana install attempt $i failed, retrying..."
+            sleep 5
+          done
           echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
           export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           solana --version
@@ -106,7 +113,14 @@ jobs:
           
       - name: Install Solana
         run: |
-          sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+          # Retry install with timeout
+          for i in {1..3}; do
+            if sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"; then
+              break
+            fi
+            echo "Solana install attempt $i failed, retrying..."
+            sleep 5
+          done
           echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
           export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           solana --version
