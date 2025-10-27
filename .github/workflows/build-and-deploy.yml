@@ -58,13 +58,11 @@ jobs:
           cargo build-bpf --version
           
       - name: Build programs with cargo-build-bpf (using system Rust)
-        env:
-          RUSTUP_TOOLCHAIN: ${{ env.RUST_VERSION }}
         run: |
-          cd programs/zephyra-protection-manager && cargo build-bpf
-          cd ../zephyra-route-executor && cargo build-bpf
-          cd ../zephyra-proof-verifier && cargo build-bpf
-          cd ../zephyra-batch-coordinator && cargo build-bpf
+          cd programs/zephyra-protection-manager && cargo +${{ env.RUST_VERSION }} build-bpf
+          cd ../zephyra-route-executor && cargo +${{ env.RUST_VERSION }} build-bpf
+          cd ../zephyra-proof-verifier && cargo +${{ env.RUST_VERSION }} build-bpf
+          cd ../zephyra-batch-coordinator && cargo +${{ env.RUST_VERSION }} build-bpf
           
       - name: List build artifacts
         run: |
